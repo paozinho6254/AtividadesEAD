@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { loginUsuario } from "../utils/authStore";
 import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 
 export default function TelaLogin({ navigation }) {
@@ -8,8 +9,17 @@ export default function TelaLogin({ navigation }) {
   const camposPreenchidos = email && senha;
 
   const handleLogin = () => {
-    Alert.alert("Bem-vindo!", `Você entrou como: ${email}`);
-    // Aqui futuramente você pode redirecionar para uma tela principal
+    const usuario = loginUsuario(email, senha);
+
+    if (usuario) {
+      Alert.alert("Bem-vindo!", `Você entrou como: ${usuario.nome}`);
+      navigation.navigate("Profile", {
+        name: usuario.nome,
+        avatar: usuario.avatar
+      });
+    } else {
+      Alert.alert("Erro", "Email ou senha inválidos");
+    }
   };
 
   return (

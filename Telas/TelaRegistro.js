@@ -1,3 +1,5 @@
+import { registrarUsuario } from "../utils/authStore"; // importa o "banco"
+
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 
@@ -6,50 +8,57 @@ export default function TelaRegistro({ navigation }) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [avatar, setAvatar] = useState('');
 
   const camposPreenchidos = cpf && nome && email && senha;
 
   const handleSalvar = () => {
+    registrarUsuario({ cpf, nome, email, senha, avatar });
+
     Alert.alert("Sucesso", `Usuário ${nome} cadastrado com sucesso!`);
-    navigation.navigate("Login"); // retorna para Login
+    navigation.navigate("Login");
   };
 
   return (
     <View style={styles.container}>
-
-    <Image style={styles.imagem} source={{ uri:"https://imgs.search.brave.com/D9GGuL8uq6OhpbDRCT5k9vOiVhoWDrUg-1WadQcrPCA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9naWZk/Yi5jb20vaW1hZ2Vz/L2hpZ2gvbWV0YWwt/Z2Vhci1zb2xpZC1z/YWx1dGUtbWVtZS1r/NG1za2hlNDVqaTB5/YzlzLmdpZg.gif"}}/>
-
+      <Image style={styles.imagem} source={{ uri:"https://i.redd.it/6uc7kozvbnef1.gif"}}/>
 
       <Text style={styles.titulo}>Cadastro</Text>
       <View style={styles.inputs}>
-      <TextInput
-        placeholder="CPF"
-        style={styles.input}
-        value={cpf}
-        onChangeText={setCpf}
-      />
-      <TextInput
-        placeholder="Nome"
-        style={styles.input}
-        value={nome}
-        onChangeText={setNome}
-      />
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        placeholder="Senha"
-        style={styles.input}
-        secureTextEntry
-        value={senha}
-        onChangeText={setSenha}
-      />
+        <TextInput
+          placeholder="CPF"
+          style={styles.input}
+          value={cpf}
+          onChangeText={setCpf}
+        />
+        <TextInput
+          placeholder="Nome"
+          style={styles.input}
+          value={nome}
+          onChangeText={setNome}
+        />
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+        <TextInput
+          placeholder="Senha"
+          style={styles.input}
+          secureTextEntry
+          value={senha}
+          onChangeText={setSenha}
+        />
+        <TextInput
+          placeholder="URL da Foto de Perfil"
+          style={styles.input}
+          value={avatar}
+          onChangeText={setAvatar}
+        />
 
-      <Button title="Salvar" onPress={handleSalvar} disabled={!camposPreenchidos} />
+        <Button title="Salvar" onPress={handleSalvar} disabled={!camposPreenchidos} />
       </View>
 
       <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.voltarBtn}>
@@ -58,6 +67,7 @@ export default function TelaRegistro({ navigation }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
     container: {
